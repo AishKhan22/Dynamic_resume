@@ -1,0 +1,157 @@
+
+  
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Dynamic Resume</title>
+    <link rel="stylesheet" href="style.css">
+    
+  </head>
+  <body>
+  
+    <div class="section">
+      <h1 class="editable" contenteditable="true" id="name">Your Name</h1>
+      <div class="contact-info">
+        <span class="label"> Email:</span>
+        <span class="editable" contenteditable="true" id="email"> Enter Your email address </span> <br>
+        
+        <span class="label">Phone:</span>
+        <span class="editable" contenteditable="true" id="phone">+923 456 7850</span> <br>
+        
+        <span class="label">Address:</span>
+        <span class="editable" contenteditable="true" id="address">Your Home address</span> <br>
+        
+        <span class="label">LinkedIn:</span>
+        <span class="editable" contenteditable="true" id="linkedin"> Your Linkedin profile</span> <br>
+      </div>
+    </div>
+  
+    <div class="section">
+      <h2>Education</h2>
+      <div id="education-section">
+        <!-- Education items will be added here dynamically -->
+      </div>
+      <button id="addEducationButton" onclick="addEducation()">Add Education</button>
+    </div>
+  
+    <div class="section">
+      <h2>Skills</h2>
+      <div id="skills-section">
+        <!-- Skill items will be added here dynamically -->
+      </div>
+      <button id="addSkillButton" onclick="addSkill()">Add Skill</button>
+    </div>
+  
+    <button id="saveButton" onclick="saveResume()">Save Resume</button>
+  
+    <script>
+      let educationCounter = 0;
+      let skillCounter = 0;
+  
+      // Function to add a new education entry
+      function addEducation() {
+        educationCounter++;
+        const educationSection = document.getElementById("education-section");
+  
+        const educationItem = document.createElement("div");
+        educationItem.classList.add("education-item");
+        educationItem.setAttribute("id", `education-${educationCounter}`);
+  
+        educationItem.innerHTML = `
+        <span class="label"> Degree:</span>
+        <h3 class="editable" contenteditable="true" id="degree-${educationCounter}">Degree - University</h3>
+
+        <span class="label">Graduation Date:</span>
+        <span class="editable" contenteditable="true" id="gradDate-${educationCounter}">Graduation Date</span>
+        <br>
+        <span class="label">Description:</span>
+        <p class="editable" contenteditable="true" id="educationDesc-${educationCounter}">
+          Description of the program.
+        </p>
+
+        <button onclick="removeEducation(${educationCounter})">Remove</button>
+      `;
+
+      educationSection.appendChild(educationItem);
+    }
+
+    // Function to remove a specific education entry
+    function removeEducation(id) {
+      const educationItem = document.getElementById(`education-${id}`);
+      if (educationItem) {
+        educationItem.remove();
+      }
+    }
+
+    // Function to add a new skill entry
+    function addSkill() {
+      skillCounter++;
+      const skillsSection = document.getElementById("skills-section");
+
+      const skillItem = document.createElement("div");
+      skillItem.classList.add("skill-item");
+      skillItem.setAttribute("id", `skill-${skillCounter}`);
+
+      skillItem.innerHTML = `
+        <span class="editable" contenteditable="true" id="skill-${skillCounter}">Add your skills here</span>
+        <br>
+        <button onclick="removeSkill(${skillCounter})">Remove</button>
+      `;
+
+      skillsSection.appendChild(skillItem);
+    }
+
+    // Function to remove a specific skill entry
+    function removeSkill(id) {
+      const skillItem = document.getElementById(`skill-${id}`);
+      if (skillItem) {
+        skillItem.remove();
+      }
+    }
+
+    // Function to save the resume as a JSON file
+    function saveResume() {
+      const resumeData = {
+        name: document.getElementById("name").textContent.trim(),
+        email: document.getElementById("email").textContent.trim(),
+        phone: document.getElementById("phone").textContent.trim(),
+        location: document.getElementById("location").textContent.trim(),
+        linkedin: document.getElementById("linkedin").textContent.trim(),
+        education: [],
+        skills: []
+      };
+
+      // Collecting education entries
+      const educationItems = document.querySelectorAll(".education-item");
+      educationItems.forEach((item, index) => {
+        const degree = document.getElementById(`degree-${index + 1}`).textContent;
+        const gradDate = document.getElementById(`gradDate-${index + 1}`).textContent;
+        const description = document.getElementById(`educationDesc-${index + 1}`).textContent;
+
+        resumeData.education.push({
+          degree,
+          graduationDate: gradDate,
+          description
+        });
+      });
+
+      // Collecting skill entries
+      const skillItems = document.querySelectorAll(".skill-item");
+      skillItems.forEach((item, index) => {
+        const skill = document.getElementById(`skill-${index + 1}`).textContent;
+        resumeData.skills.push(skill);
+      });
+
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(resumeData, null, 2));
+      const downloadAnchorNode = document.createElement("a");
+      downloadAnchorNode.setAttribute("href", dataStr);
+      downloadAnchorNode.setAttribute("download", "resume.json");
+      document.body.appendChild(downloadAnchorNode);
+      downloadAnchorNode.click();
+      downloadAnchorNode.remove();
+    }
+  </script>
+</body>
+</html>

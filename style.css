@@ -1,0 +1,48 @@
+
+      body {
+        font-family: 'Times New Roman', Times, serif;
+        line-height: 1.6;
+        background-color: maroon;
+        padding: 25px;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+      .section {
+        margin-bottom: 20px;
+        padding: 20px;
+        background: wheat;
+        box-shadow: 0 0 5px maroon;
+        border-radius: 30px;
+      }
+      h1, h2 {
+        color: maroon;
+      }
+      .label {
+        font-weight: bold;
+        color: maroon;
+      }
+      .editable {
+        color: #3D0301;
+        cursor: pointer;
+      }
+      .editable:hover {
+        border-bottom: 1px dotted palevioletred;
+      }
+      .education-item, .skill-item {
+        margin-bottom: 10px;
+        padding: 10px;
+        background: #f9f9f9;
+        border-radius: 20px;
+      }
+      #addEducationButton, #addSkillButton, #saveButton {
+        background-color: #B03052;
+        color: white;
+        padding: 8px 12px;
+        border: none;
+        cursor: pointer;
+        border-radius: 20px;
+        margin-top: 10px;
+        text-align: center;
+
+      }
+    
